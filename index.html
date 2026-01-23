@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio — Marie Taouzinet</title>
+
+  <!-- Police épurée -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0e0e0e;
+      --text:#f2f2f2;
+      --sidebar-w: 230px;
+
+      /* lisibilité texte sur photo */
+      --shadow: 0 3px 18px rgba(0,0,0,0.85);
+      --outline: 0 0 1px rgba(0,0,0,0.65);
+
+      /* digitals : TRÈS ESPACÉES */
+      --digitals-gap: 48px;
+      --digitals-pad: 56px;
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+
+    body{
+      margin:0;
+      font-family:"Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:var(--bg);
+      color:var(--text);
+      letter-spacing: 0.01em;
+    }
+
+    /* ===== HERO ===== */
+    .hero{
+      height:100vh;
+      width:100vw;
+      position: relative;
+      background: url("banner/banner.jpg") center / cover no-repeat;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: rgba(0,0,0,0.25);
+    }
+
+    /* PG label (utilisable partout, y compris HERO) */
+    .pg{
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.78);
+      text-shadow: var(--shadow);
+      filter: drop-shadow(var(--outline));
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* ✅ Lien cliquable dans PG */
+    .pg a{
+      pointer-events: auto;
+      color: rgba(255,255,255,0.92);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.28);
+      padding-bottom: 1px;
+    }
+    .pg a:hover{ border-bottom-color: rgba(255,255,255,0.55); }
+    .pg a:focus-visible{
+      outline: 2px solid rgba(255,255,255,0.55);
+      outline-offset: 2px;
+      border-bottom-color: transparent;
+    }
+
+    /* ===== Sidebar overlay ===== */
+    nav{
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-w);
+      height: 100vh;
+      padding: 22px 16px;
+      z-index: 50;
+      background: transparent;
+      overflow: auto;
+      pointer-events: none;
+    }
+    nav *{ pointer-events: auto; }
+
+    .brand{
+      margin-bottom: 18px;
+      user-select: none;
+      text-shadow: var(--shadow);
+      filter: drop-shadow(var(--outline));
+    }
+
+    .brand .name-wrap{
+      position: relative;
+      display: inline-block; /* largeur = largeur du nom */
+    }
+
+    .brand .name-line{
+      display: inline-flex;
+      align-items: baseline;
+      gap: 8px;
+      line-height: 1.05;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+    }
+    .brand .first{
+      font-weight: 300;
+      color: rgba(242,242,242,0.85);
+      font-size: 18px;
+    }
+    .brand .last{
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--text);
+    }
+
+    /* ✅ "Model" : centré sous le nom, puis décalé vers la gauche de 1/3 */
+    .role{
+      margin-top: 6px;
+      font-family: "Inter", ui-sans-serif, system-ui;
+      font-weight: 400;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: none;
+      color: rgba(242,242,242,0.78);
+
+      position: relative;
+      left: 50%;
+      transform: translateX(-83.333%); /* (-50% - 33.333%) */
+      width: fit-content;
+      text-align: left;
+    }
+
+    .navlinks{
+      display:flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .navlinks a{
+      text-decoration:none;
+      color: rgba(242,242,242,0.72);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-shadow: var(--shadow);
+      font-weight: 500;
+      transition: color .15s ease, font-weight .15s ease;
+    }
+
+    /* ✅ Gras au hover/focus (quand tu passes sur le lien) */
+    .navlinks a:hover,
+    .navlinks a:focus-visible{
+      color: var(--text);
+      font-weight: 800;
+      outline: none;
+    }
+
+    /* ✅ Gras quand la section est active (Portfolio reste en gras quand tu es dans la section) */
+    .navlinks a.active{
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    /* Cache "Home" (mais il sert d'ancre) */
+    .navlinks a[href="#home"]{ display:none; }
+
+    /* ===== Social ===== */
+    .social{
+      position: fixed;
+      left: 16px;
+      bottom: 16px;
+      z-index: 60;
+      text-shadow: var(--shadow);
+      filter: drop-shadow(var(--outline));
+    }
+    .social a{ color: white; }
+
+    /* ===== Sections ===== */
+    main{ width:100vw; }
+
+    .section-title{
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      text-align: center;
+      padding: 12px 10px 6px;
+      font-size: 12px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      font-weight: 500;
+      text-shadow: var(--shadow);
+      pointer-events: none;
+    }
+
+    /* ===== Grids ===== */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+    }
+
+    .tile{
+      position: relative;
+      border-radius: 0;
+      overflow: hidden;
+      background:#000;
+    }
+
+    .tile.square{ aspect-ratio:1/1; }
+    .tile.portrait{ aspect-ratio:2/3; }
+
+    .tile img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    /* ===== Digitals ===== */
+    .grid.digitals{
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--digitals-gap);
+      padding: var(--digitals-pad);
+      background: var(--bg);
+    }
+
+    /* ===== Panels ===== */
+    .panel{
+      min-height: unset;
+      padding: 18px 18px 34px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .text-block{
+      max-width: 520px;
+      text-align: center;
+      color: rgba(242,242,242,0.8);
+      font-size: 14px;
+      line-height: 2;
+      margin-top: 0;
+    }
+
+    .text-block strong{
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .traits{
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.10);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: repeat(2, 1fr); }
+      .grid.digitals{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 560px){
+      .grid.digitals{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HERO (ancre HOME) -->
+  <section class="hero" id="home" aria-label="Hero banner">
+    <div class="pg">PG: <a href="https://instagram.com/aphotographey" target="_blank" rel="noopener noreferrer">Aman</a></div>
+  </section>
+
+  <nav>
+    <div class="brand">
+      <div class="name-wrap">
+        <div class="name-line">
+          <span class="first">Marie</span>
+          <span class="last">Taouzinet</span>
+        </div>
+        <div class="role">Model</div>
+      </div>
+    </div>
+
+    <div class="navlinks" id="navlinks">
+      <a href="#home">Home</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#digitals">Digitals</a>
+      <a href="#measurements">Measurements</a>
+      <a href="#contact-me">Contact me</a>
+    </div>
+  </nav>
+
+  <div class="social">
+    <a href="https://instagram.com/__marie.t" target="_blank" aria-label="Instagram" rel="noopener noreferrer">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Z" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6"/>
+        <circle cx="17.6" cy="6.4" r="1.2" fill="currentColor"/>
+      </svg>
+    </a>
+  </div>
+
+  <main>
+
+    <!-- PORTFOLIO -->
+    <section id="portfolio">
+      <h2 class="section-title">Portfolio</h2>
+      <div class="grid">
+        <div class="tile square">
+          <img src="photos/01.jpg" alt="Portfolio 01">
+          <div class="pg">PG: <a href="https://instagram.com/aman" target="_blank" rel="noopener noreferrer">Aman</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/02.jpg" alt="Portfolio 02">
+          <div class="pg">PG: <a href="https://instagram.com/reset" target="_blank" rel="noopener noreferrer">Reset</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/03.jpg" alt="Portfolio 03">
+          <div class="pg">PG: <a href="https://instagram.com/reset__9" target="_blank" rel="noopener noreferrer">Reset</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/04.jpeg" alt="Portfolio 04">
+          <div class="pg">PG: <a href="https://instagram.com/_mateogallego_" target="_blank" rel="noopener noreferrer">Matteo Gallego</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/05.jpeg" alt="Portfolio 05">
+          <div class="pg">PG: <a href="https://instagram.com/reset__9" target="_blank" rel="noopener noreferrer">Reset</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/06.jpg" alt="Portfolio 06">
+          <div class="pg">PG: <a href="https://instagram.com/fledfine" target="_blank" rel="noopener noreferrer">Delphine</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/07.jpeg" alt="Portfolio 07">
+          <div class="pg">PG: <a href="https://instagram.com/_mateogallego_" target="_blank" rel="noopener noreferrer">Matteo Gallego</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/08.jpg" alt="Portfolio 08">
+          <div class="pg">PG: <a href="https://instagram.com/mijeanrochus" target="_blank" rel="noopener noreferrer">MiJean</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/09.jpg" alt="Portfolio 09">
+          <div class="pg">PG: <a href="https://instagram.com/reset__9" target="_blank" rel="noopener noreferrer">Reset</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/10.jpg" alt="Portfolio 10">
+          <div class="pg">PG: <a href="https://instagram.com/reset__9" target="_blank" rel="noopener noreferrer">Reset</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/11.jpeg" alt="Portfolio 11">
+          <div class="pg">PG: <a href="https://instagram.com/_mateogallego_" target="_blank" rel="noopener noreferrer">Matteo Gallego</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/12.jpg" alt="Portfolio 12">
+          <div class="pg">PG: <a href="https://instagram.com/fledfine" target="_blank" rel="noopener noreferrer">Delphine</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/13.jpg" alt="Portfolio 13">
+          <div class="pg">PG: <a href="https://instagram.com/aphotographey" target="_blank" rel="noopener noreferrer">Aman</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/14.jpeg" alt="Portfolio 14">
+          <div class="pg">PG: <a href="https://instagram.com/reset__9" target="_blank" rel="noopener noreferrer">Reset</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/15.jpeg" alt="Portfolio 15">
+          <div class="pg">PG: <a href="https://instagram.com/_mateogallego_" target="_blank" rel="noopener noreferrer">Matteo Gallego</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/16.jpg" alt="Portfolio 16">
+          <div class="pg">PG: <a href="https://instagram.com/aphotographey" target="_blank" rel="noopener noreferrer">Aman</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/17.jpeg" alt="Portfolio 17">
+          <div class="pg">PG: <a href="https://instagram.com/reset__9" target="_blank" rel="noopener noreferrer">Reset</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/18.jpg" alt="Portfolio 18">
+          <div class="pg">PG: <a href="https://instagram.com/fledfine" target="_blank" rel="noopener noreferrer">Delphine</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/19.jpg" alt="Portfolio 19">
+          <div class="pg">PG: <a href="https://instagram.com/fledfine" target="_blank" rel="noopener noreferrer">Delphine</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/20.jpeg" alt="Portfolio 20">
+          <div class="pg">PG: <a href="https://instagram.com/diidii_photography" target="_blank" rel="noopener noreferrer">Diidii</a></div>
+        </div>
+
+        <div class="tile square">
+          <img src="photos/21.jpeg" alt="Portfolio 21">
+          <div class="pg">PG: <a href="https://instagram.com/diidii_photography" target="_blank" rel="noopener noreferrer">Diidii</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIGITALS (sans PG) -->
+    <section id="digitals">
+      <h2 class="section-title">Digitals</h2>
+      <div class="grid digitals">
+        <div class="tile portrait"><img src="polas/01.jpg" alt="Digital 01"></div>
+        <div class="tile portrait"><img src="polas/02.jpg" alt="Digital 02"></div>
+        <div class="tile portrait"><img src="polas/03.jpg" alt="Digital 03"></div>
+        <div class="tile portrait"><img src="polas/04.jpg" alt="Digital 04"></div>
+        <div class="tile portrait"><img src="polas/05.jpg" alt="Digital 05"></div>
+        <div class="tile portrait"><img src="polas/06.jpg" alt="Digital 06"></div>
+      </div>
+    </section>
+
+    <!-- MEASUREMENTS -->
+    <section id="measurements">
+      <h2 class="section-title">Measurements</h2>
+      <div class="panel">
+        <div class="text-block">
+          <strong>Height:</strong> 170 cm<br>
+          <strong>Chest:</strong> 84 cm<br>
+          <strong>Waist:</strong> 72 cm<br>
+          <strong>Hips:</strong> 97 cm<br>
+          <strong>Dress:</strong> EU 34<br>
+          <strong>Shoe:</strong> EU 40
+
+          <div class="traits">
+            <strong>Age:</strong> 23<br>
+            <strong>Hair:</strong> Blond<br>
+            <strong>Eyes:</strong> Brown
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT ME -->
+    <section id="contact-me">
+      <h2 class="section-title">Contact me</h2>
+      <div class="panel">
+        <div class="text-block">
+          <strong>Location:</strong> Paris, France<br>
+          <strong>Email:</strong> marie.taouzinet@gmail.com<br>
+          <strong>Phone:</strong> +33 7 67 88 72 51
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Force l'arrivée sur la bannière (home) au chargement
+    window.addEventListener("load", () => {
+      if (!window.location.hash || window.location.hash === "#portfolio") {
+        window.scrollTo({ top: 0, behavior: "instant" });
+        history.replaceState(null, "", "#home");
+      }
+    });
+
+    // ✅ Onglet actif robuste : la section qui contient le milieu de l'écran
+    const links = [...document.querySelectorAll('#navlinks a')].filter(a => a.getAttribute('href') !== '#home');
+    const linkById = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+    const sections = [...linkById.keys()].map(id => document.getElementById(id)).filter(Boolean);
+
+    function setActive(id){
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+id));
+    }
+
+    function updateActiveFromScroll(){
+      const y = window.scrollY + window.innerHeight * 0.5; // milieu de l'écran
+      let current = sections[0]?.id;
+
+      for (const s of sections){
+        const top = s.offsetTop;
+        const bottom = top + s.offsetHeight;
+        if (y >= top && y < bottom){
+          current = s.id;
+          break;
+        }
+      }
+
+      if (current) setActive(current);
+    }
+
+    window.addEventListener('scroll', updateActiveFromScroll, { passive: true });
+    window.addEventListener('resize', updateActiveFromScroll);
+    window.addEventListener('hashchange', updateActiveFromScroll);
+
+    // initial
+    updateActiveFromScroll();
+  </script>
+
+</body>
+</html>
