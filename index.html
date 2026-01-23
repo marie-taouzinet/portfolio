@@ -38,16 +38,48 @@
 
     /* ===== HERO ===== */
     .hero{
-      height:100vh;
-      width:100vw;
+      /* fallback desktop */
+      height: 100vh;
+      width: 100vw;
       position: relative;
-      background: url("banner/banner.jpg") center / cover no-repeat;
+
+      background-image: url("banner/banner.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center; /* desktop */
     }
     .hero::after{
       content:"";
       position:absolute;
       inset:0;
       background: rgba(0,0,0,0.25);
+    }
+
+    /* ✅ Fix mobile : unités de viewport fiables + cadrage meilleur */
+    @supports (height: 100svh){
+      .hero{ height: 100svh; } /* stable viewport height (mobile) */
+    }
+    @supports (height: 100dvh){
+      .hero{ height: 100dvh; } /* dynamic viewport height (mobile récent) */
+    }
+
+    /* Ajustements spécifiques mobile (bannière trop grande / mal cadrée) */
+    @media (max-width: 700px){
+      .hero{
+        /* souvent plus esthétique : un peu moins haut que plein écran sur mobile */
+        height: 88vh;
+      }
+      @supports (height: 88svh){
+        .hero{ height: 88svh; }
+      }
+      @supports (height: 88dvh){
+        .hero{ height: 88dvh; }
+      }
+
+      /* recadrage : remonte un peu l’image (à ajuster si besoin) */
+      .hero{
+        background-position: 50% 25%;
+      }
     }
 
     /* PG label (utilisable partout, y compris HERO) */
